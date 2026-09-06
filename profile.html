@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arovia - User Profile</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aroviaMaroon: '#4a1525',
+                        aroviaDarkMaroon: '#2b0b14',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#f7f3f4] font-sans antialiased flex h-screen overflow-hidden text-gray-800">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="w-64 bg-[#451221] text-white flex flex-col justify-between p-6 select-none shadow-xl z-20 shrink-0">
+        <div>
+            <!-- Brand Logo -->
+            <div class="mb-10">
+                <h1 class="text-3xl font-extrabold tracking-wider italic">Arovia</h1>
+                <p class="text-[9px] tracking-widest text-pink-200/80 uppercase mt-1">Explore • Experience • Preserve</p>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-house text-base"></i> Home
+                </a>
+                <a href="trip.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-suitcase text-base"></i> My Trips
+                </a>
+                <a href="saved.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-bookmark text-base"></i> Saved Places
+                </a>
+                <a href="map.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-map text-base"></i> Map
+                </a>
+                <a href="profile.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl bg-white/20 text-white font-medium shadow-sm transition duration-300">
+                    <i class="fa-solid fa-user text-base"></i> Profile
+                </a>
+            </nav>
+        </div>
+
+        <!-- Sidebar Footer Box -->
+        <div class="relative bg-black/20 p-4 rounded-3xl border border-white/10 text-center space-y-2">
+            <div class="flex justify-center opacity-60 text-pink-200">
+                <i class="fa-solid fa-mountain text-3xl"></i>
+            </div>
+            <p class="text-xs italic text-pink-100/90 font-light leading-snug">"Better Journeys for a Greener Tomorrow"</p>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 overflow-y-auto p-8 flex flex-col bg-[#f7f3f4] relative space-y-6">
+
+        <!-- Top Header Bar -->
+        <div class="flex justify-between items-center bg-white/80 backdrop-blur-md px-6 py-4 rounded-3xl shadow-sm border border-pink-100 shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-[#451221] text-white flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-user text-sm"></i>
+                </div>
+                <div>
+                    <h2 class="font-bold text-gray-900 text-base">Traveler Profile & Settings</h2>
+                    <p class="text-xs text-gray-500">Manage your personal credentials and sustainable travel preferences</p>
+                </div>
+            </div>
+            <a href="dashboard.html" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Profile Card & Form Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Profile Summary Card -->
+            <div class="bg-white p-6 rounded-[2.5rem] shadow-sm border border-pink-100 flex flex-col items-center text-center space-y-4">
+                <div class="w-24 h-24 rounded-full bg-gradient-to-tr from-[#451221] to-rose-600 text-white text-3xl font-black flex items-center justify-center shadow-lg border-4 border-pink-100">
+                    <span id="avatarInitial">S</span>
+                </div>
+                <div>
+                    <h3 id="profileNameDisplay" class="font-bold text-gray-900 text-lg">Saurabh Giri</h3>
+                    <p class="text-xs text-gray-500 font-light mt-0.5">Eco-Explorer & Tech Enthusiast</p>
+                </div>
+                <div class="w-full pt-2 border-t border-gray-100 space-y-2 text-left text-xs">
+                    <div class="flex justify-between text-gray-600">
+                        <span>Member Status:</span>
+                        <span class="font-bold text-[#451221]">Arovia Premium</span>
+                    </div>
+                    <div class="flex justify-between text-gray-600">
+                        <span>Saved Itineraries:</span>
+                        <span class="font-bold text-emerald-600">3 Active Trails</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Editable Profile Details Form -->
+            <div class="md:col-span-2 bg-white p-8 rounded-[2.5rem] shadow-sm border border-pink-100 space-y-5">
+                <h3 class="font-bold text-gray-900 text-sm border-b border-gray-100 pb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-[#451221]"></i> Edit Personal Information
+                </h3>
+
+                <form onsave="updateProfile(event)" id="profileForm" class="space-y-4 text-xs">
+                    <div class="space-y-1.5">
+                        <label class="block font-semibold text-gray-700">Full Name</label>
+                        <input type="text" id="fullNameInput" value="Saurabh Giri" class="w-full p-3.5 rounded-2xl bg-gray-50 border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#451221] font-medium">
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-1.5">
+                            <label class="block font-semibold text-gray-700">Email Address</label>
+                            <input type="email" value="saurabh@example.com" class="w-full p-3.5 rounded-2xl bg-gray-50 border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#451221] font-medium">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="block font-semibold text-gray-700">Travel Style / Preference</label>
+                            <select class="w-full p-3.5 rounded-2xl bg-gray-50 border border-gray-200 text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#451221]">
+                                <option>Sustainable Offbeat & Eco-Stays</option>
+                                <option>Heritage & Culture Explorer</option>
+                                <option>Adventure & Trekking</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex justify-end gap-3">
+                        <button type="button" onclick="saveProfile(event)" class="px-6 py-3.5 rounded-2xl bg-[#451221] hover:bg-black text-white font-bold text-xs uppercase tracking-wider transition shadow-md cursor-pointer">
+                            Save Changes <i class="fa-solid fa-check ml-1"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Script to sync profile and dashboard username -->
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedName = localStorage.getItem('aroviaUserName');
+            if (savedName) {
+                document.getElementById('fullNameInput').value = savedName;
+                document.getElementById('profileNameDisplay').innerText = savedName;
+                document.getElementById('avatarInitial').innerText = savedName.charAt(0).toUpperCase();
+            }
+        });
+
+        function saveProfile(event) {
+            event.preventDefault();
+            const newName = document.getElementById('fullNameInput').value;
+            localStorage.setItem('aroviaUserName', newName);
+            document.getElementById('profileNameDisplay').innerText = newName;
+            document.getElementById('avatarInitial').innerText = newName.charAt(0).toUpperCase();
+            alert('🎉 Profile updated successfully! Changes synced with Arovia dashboard.');
+        }
+    </script>
+</body>
+</html>

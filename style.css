@@ -1,0 +1,9 @@
+/* Arovia Custom Styles */
+:root {
+    --arovia-maroon: #4a1525;
+    --arovia-dark-maroon: #320d18;
+}
+
+body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}

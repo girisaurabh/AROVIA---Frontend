@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arovia - Emergency & Safety Alerts</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aroviaMaroon: '#4a1525',
+                        aroviaDarkMaroon: '#2b0b14',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#f7f3f4] font-sans antialiased flex h-screen overflow-hidden text-gray-800">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="w-64 bg-[#451221] text-white flex flex-col justify-between p-6 select-none shadow-xl z-20 shrink-0">
+        <div>
+            <!-- Brand Logo -->
+            <div class="mb-10">
+                <h1 class="text-3xl font-extrabold tracking-wider italic">Arovia</h1>
+                <p class="text-[9px] tracking-widest text-pink-200/80 uppercase mt-1">Explore • Experience • Preserve</p>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-house text-base"></i> Home
+                </a>
+                <a href="trip.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-suitcase text-base"></i> My Trips
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-bookmark text-base"></i> Saved Places
+                </a>
+                <a href="map.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-map text-base"></i> Map
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-user text-base"></i> Profile
+                </a>
+            </nav>
+        </div>
+
+        <!-- Sidebar Footer Box -->
+        <div class="relative bg-black/20 p-4 rounded-3xl border border-white/10 text-center space-y-2">
+            <div class="flex justify-center opacity-60 text-pink-200">
+                <i class="fa-solid fa-mountain text-3xl"></i>
+            </div>
+            <p class="text-xs italic text-pink-100/90 font-light leading-snug">"Better Journeys for a Greener Tomorrow"</p>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 overflow-y-auto p-8 flex flex-col bg-[#f7f3f4] relative space-y-6">
+
+        <!-- Top Header Bar -->
+        <div class="flex justify-between items-center bg-white/80 backdrop-blur-md px-6 py-4 rounded-3xl shadow-sm border border-pink-100 shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-[#451221] text-white flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-triangle-exclamation text-sm"></i>
+                </div>
+                <div>
+                    <h2 class="font-bold text-gray-900 text-base">Emergency & Safety Alerts</h2>
+                    <p class="text-xs text-gray-500">Real-time safety advisories, weather warnings, and quick SOS assistance</p>
+                </div>
+            </div>
+            <a href="dashboard.html" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Emergency Banner / SOS Box -->
+        <div class="bg-gradient-to-r from-rose-700 to-[#451221] p-6 rounded-[2.5rem] shadow-xl text-white flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="space-y-1">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-xs font-bold">
+                    <i class="fa-solid fa-bell-slash"></i> 24/7 Active Monitoring
+                </div>
+                <h3 class="text-lg font-black tracking-tight">Need Immediate Assistance?</h3>
+                <p class="text-xs text-pink-100/90 font-light">Trigger an emergency SOS alert to instantly dispatch your live location to local tourist police and medical units.</p>
+            </div>
+            <button onclick="alert('🚨 SOS Alert Dispatched! Local authorities & emergency contacts have been notified.')" class="px-6 py-3.5 bg-white text-rose-800 hover:bg-rose-50 font-black text-xs uppercase tracking-wider rounded-2xl transition shadow-lg shrink-0 flex items-center gap-2">
+                <i class="fa-solid fa-tower-broadcast text-rose-600 animate-pulse"></i> Trigger SOS Beacon
+            </button>
+        </div>
+
+        <!-- Active Alerts Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <!-- Weather Advisory -->
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-pink-100 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-cloud-bolt text-sm"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-sm">Weather Warning</h4>
+                    </div>
+                    <span class="px-3 py-1 bg-amber-50 text-amber-700 rounded-full text-[10px] font-bold">Moderate</span>
+                </div>
+                <p class="text-xs text-gray-600 leading-relaxed">
+                    Light snowfall and misty conditions expected across higher altitude passes in Himachal and Uttarakhand. Drive with fog lights enabled.
+                </p>
+                <div class="text-[10px] text-gray-400 font-medium">Updated 30 mins ago • Arovia Meteorological Feed</div>
+            </div>
+
+            <!-- Route Safety Advisory -->
+            <div class="bg-white p-6 rounded-[2rem] shadow-sm border border-pink-100 space-y-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold">
+                            <i class="fa-solid fa-shield-check text-sm"></i>
+                        </div>
+                        <h4 class="font-bold text-gray-900 text-sm">Safe Offbeat Trail Status</h4>
+                    </div>
+                    <span class="px-3 py-1 bg-emerald-50 text-emerald-700 rounded-full text-[10px] font-bold">All Clear</span>
+                </div>
+                <p class="text-xs text-gray-600 leading-relaxed">
+                    All recommended offbeat trails in Alwar (Sariska) and Chakrata are operating under safe tourist density limits with active ranger patrols.
+                </p>
+                <div class="text-[10px] text-gray-400 font-medium">Updated 1 hour ago • Arovia Ranger Network</div>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

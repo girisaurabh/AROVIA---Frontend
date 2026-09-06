@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arovia - Saved Places</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aroviaMaroon: '#4a1525',
+                        aroviaDarkMaroon: '#2b0b14',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#f7f3f4] font-sans antialiased flex h-screen overflow-hidden text-gray-800">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="w-64 bg-[#451221] text-white flex flex-col justify-between p-6 select-none shadow-xl z-20 shrink-0">
+        <div>
+            <!-- Brand Logo -->
+            <div class="mb-10">
+                <h1 class="text-3xl font-extrabold tracking-wider italic">Arovia</h1>
+                <p class="text-[9px] tracking-widest text-pink-200/80 uppercase mt-1">Explore • Experience • Preserve</p>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-house text-base"></i> Home
+                </a>
+                <a href="trip.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-suitcase text-base"></i> My Trips
+                </a>
+                <a href="saved.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl bg-white/20 text-white font-medium shadow-sm transition duration-300">
+                    <i class="fa-solid fa-bookmark text-base"></i> Saved Places
+                </a>
+                <a href="map.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-map text-base"></i> Map
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-user text-base"></i> Profile
+                </a>
+            </nav>
+        </div>
+
+        <!-- Sidebar Footer Box -->
+        <div class="relative bg-black/20 p-4 rounded-3xl border border-white/10 text-center space-y-2">
+            <div class="flex justify-center opacity-60 text-pink-200">
+                <i class="fa-solid fa-mountain text-3xl"></i>
+            </div>
+            <p class="text-xs italic text-pink-100/90 font-light leading-snug">"Better Journeys for a Greener Tomorrow"</p>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 overflow-y-auto p-8 flex flex-col bg-[#f7f3f4] relative space-y-6">
+
+        <!-- Top Header Bar -->
+        <div class="flex justify-between items-center bg-white/80 backdrop-blur-md px-6 py-4 rounded-3xl shadow-sm border border-pink-100 shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-[#451221] text-white flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-bookmark text-sm"></i>
+                </div>
+                <div>
+                    <h2 class="font-bold text-gray-900 text-base">Saved Bookmarks & Places</h2>
+                    <p class="text-xs text-gray-500">Your personal collection of bookmarked offbeat trails and eco-stays</p>
+                </div>
+            </div>
+            <a href="dashboard.html" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Saved Places Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <!-- Saved Card 1 -->
+            <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-pink-100 flex flex-col justify-between group">
+                <div class="h-40 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80')">
+                    <span class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/90 backdrop-blur-md text-[#451221] flex items-center justify-center shadow-md cursor-pointer">
+                        <i class="fa-solid fa-bookmark text-xs"></i>
+                    </span>
+                    <span class="absolute bottom-4 left-4 text-[10px] bg-[#451221]/80 backdrop-blur-md text-white px-3 py-1 rounded-full font-medium">
+                        Himachal Offbeat
+                    </span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <h3 class="font-bold text-gray-900 text-sm">Chakrata Pine Hills</h3>
+                    <p class="text-xs text-gray-500 font-light leading-relaxed">Pristine alpine views, Tiger Falls, and quiet cantonment trails away from crowds.</p>
+                    <div class="pt-2 flex justify-between items-center">
+                        <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg">🌿 Eco-Friendly</span>
+                        <a href="trip.html" class="text-xs font-bold text-[#451221] hover:underline flex items-center gap-1">
+                            Plan Route <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Card 2 -->
+            <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-pink-100 flex flex-col justify-between group">
+                <div class="h-40 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1599661046289-e31898f46a41?auto=format&fit=crop&w=600&q=80')">
+                    <span class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/90 backdrop-blur-md text-[#451221] flex items-center justify-center shadow-md cursor-pointer">
+                        <i class="fa-solid fa-bookmark text-xs"></i>
+                    </span>
+                    <span class="absolute bottom-4 left-4 text-[10px] bg-[#451221]/80 backdrop-blur-md text-white px-3 py-1 rounded-full font-medium">
+                        Rajasthan Heritage
+                    </span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <h3 class="font-bold text-gray-900 text-sm">Alwar Heritage Trail</h3>
+                    <p class="text-xs text-gray-500 font-light leading-relaxed">Historical Sariska wildlife reserve and quiet architectural forts.</p>
+                    <div class="pt-2 flex justify-between items-center">
+                        <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg">🌿 Eco-Friendly</span>
+                        <a href="trip.html" class="text-xs font-bold text-[#451221] hover:underline flex items-center gap-1">
+                            Plan Route <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Card 3 -->
+            <div class="bg-white rounded-[2rem] overflow-hidden shadow-sm border border-pink-100 flex flex-col justify-between group">
+                <div class="h-40 bg-cover bg-center relative" style="background-image: url('https://images.unsplash.com/photo-1544735716-392fe2489ffa?auto=format&fit=crop&w=600&q=80')">
+                    <span class="absolute top-4 right-4 w-8 h-8 rounded-full bg-white/90 backdrop-blur-md text-[#451221] flex items-center justify-center shadow-md cursor-pointer">
+                        <i class="fa-solid fa-bookmark text-xs"></i>
+                    </span>
+                    <span class="absolute bottom-4 left-4 text-[10px] bg-[#451221]/80 backdrop-blur-md text-white px-3 py-1 rounded-full font-medium">
+                        Uttarakhand Ridge
+                    </span>
+                </div>
+                <div class="p-5 space-y-3">
+                    <h3 class="font-bold text-gray-900 text-sm">Mukteshwar Orchards</h3>
+                    <p class="text-xs text-gray-500 font-light leading-relaxed">High-altitude serenity with panoramic snow-capped peaks and fruit orchards.</p>
+                    <div class="pt-2 flex justify-between items-center">
+                        <span class="text-[10px] font-semibold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-lg">🌿 Eco-Friendly</span>
+                        <a href="trip.html" class="text-xs font-bold text-[#451221] hover:underline flex items-center gap-1">
+                            Plan Route <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arovia - AI Travel Chatbot</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aroviaMaroon: '#4a1525',
+                        aroviaDarkMaroon: '#2b0b14',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#f7f3f4] font-sans antialiased flex h-screen overflow-hidden text-gray-800">
+
+    <aside class="w-64 bg-[#451221] text-white flex flex-col justify-between p-6 select-none shadow-xl z-20 shrink-0">
+        <div>
+            <div class="mb-10">
+                <h1 class="text-3xl font-extrabold tracking-wider italic">Arovia</h1>
+                <p class="text-[9px] tracking-widest text-pink-200/80 uppercase mt-1">Explore • Experience • Preserve</p>
+            </div>
+
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition">
+                    <i class="fa-solid fa-house text-base"></i> Home
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition">
+                    <i class="fa-solid fa-suitcase text-base"></i> My Trips
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition">
+                    <i class="fa-solid fa-bookmark text-base"></i> Saved Places
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition">
+                    <i class="fa-solid fa-map text-base"></i> Map
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition">
+                    <i class="fa-solid fa-user text-base"></i> Profile
+                </a>
+            </nav>
+        </div>
+
+        <div class="relative bg-black/20 p-4 rounded-3xl border border-white/10 text-center space-y-2">
+            <div class="flex justify-center opacity-60 text-pink-200">
+                <i class="fa-solid fa-mountain text-3xl"></i>
+            </div>
+            <p class="text-xs italic text-pink-100/90 font-light leading-snug">"Better Journeys for a Greener Tomorrow"</p>
+        </div>
+    </aside>
+
+    <main class="flex-1 flex flex-col h-screen overflow-hidden bg-[#f7f3f4]">
+
+        <header class="bg-white/80 backdrop-blur-md px-8 py-4 border-b border-pink-100 flex justify-between items-center shadow-sm shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-[#451221] text-white flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-robot text-sm"></i>
+                </div>
+                <div>
+                    <h2 class="font-bold text-gray-900 text-base">Arovia AI Assistant</h2>
+                    <p class="text-[11px] text-emerald-600 font-medium flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Online & Ready to Help
+                    </p>
+                </div>
+            </div>
+            <a href="dashboard.html" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </header>
+
+        <div id="chatContainer" class="flex-1 overflow-y-auto p-6 space-y-4 max-w-4xl w-full mx-auto">
+            <div class="flex items-start gap-3">
+                <div class="w-8 h-8 rounded-full bg-[#451221] text-white flex items-center justify-center text-xs shrink-0 shadow">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+                <div class="bg-white p-4 rounded-2xl rounded-tl-sm shadow-sm border border-pink-100 max-w-lg text-xs leading-relaxed text-gray-700">
+                    Hello <span id="chatUserName" class="font-bold text-[#451221]">Samyak</span>! 🌸 I am your Arovia travel guide. Ask me anything about offbeat destinations, local cuisine, weather updates, or travel itineraries!
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6 bg-white/80 backdrop-blur-md border-t border-pink-100 shrink-0">
+            <form id="chatForm" onsubmit="handleSendMessage(event)" class="max-w-4xl mx-auto flex gap-3">
+                <input type="text" id="userInput" required placeholder="Type your travel question here..." class="flex-1 py-3 px-5 rounded-2xl bg-gray-50 border border-gray-200 text-xs focus:outline-none focus:ring-2 focus:ring-[#451221] transition">
+                <button type="submit" class="px-6 py-3 bg-[#451221] hover:bg-black text-white text-xs font-semibold rounded-2xl transition shadow-md flex items-center gap-2">
+                    Send <i class="fa-solid fa-paper-plane text-[10px]"></i>
+                </button>
+            </form>
+        </div>
+
+    </main>
+
+    <script>
+        const savedName = localStorage.getItem('aroviaUserName');
+        if (savedName) {
+            document.getElementById('chatUserName').innerText = savedName;
+        }
+
+        function handleSendMessage(event) {
+            event.preventDefault();
+            const inputField = document.getElementById('userInput');
+            const messageText = inputField.value.trim();
+            if (!messageText) return;
+
+            const chatContainer = document.getElementById('chatContainer');
+
+            // Append User Message
+            const userMsgHTML = `
+                <div class="flex items-start gap-3 justify-end">
+                    <div class="bg-[#451221] text-white p-4 rounded-2xl rounded-tr-sm shadow-sm max-w-lg text-xs leading-relaxed">
+                        ${messageText}
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-gray-300 text-gray-700 flex items-center justify-center text-xs shrink-0 shadow font-bold">
+                        ${savedName ? savedName.charAt(0).toUpperCase() : 'S'}
+                    </div>
+                </div>
+            `;
+            chatContainer.insertAdjacentHTML('beforeend', userMsgHTML);
+            inputField.value = '';
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Simulate Bot Response after 1 second
+            setTimeout(() => {
+                let botReply = "That sounds like a wonderful travel query! Let me gather the best offbeat recommendations and safety alerts for your trip.";
+                const lower = messageText.toLowerCase();
+                if (lower.includes('manali') || lower.includes('himachal')) {
+                    botReply = "Manali is gorgeous right now! Current temperature is around 18°C. Make sure to check out hidden trails near Solang Valley and local Himachali Siddu food!";
+                } else if (lower.includes('goa') || lower.includes('beach')) {
+                    botReply = "Goa offers amazing beach vibes and quiet hidden coves away from the crowd in South Goa like Kakolem Beach.";
+                }
+
+                const botMsgHTML = `
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-full bg-[#451221] text-white flex items-center justify-center text-xs shrink-0 shadow">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div class="bg-white p-4 rounded-2xl rounded-tl-sm shadow-sm border border-pink-100 max-w-lg text-xs leading-relaxed text-gray-700">
+                            ${botReply}
+                        </div>
+                    </div>
+                `;
+                chatContainer.insertAdjacentHTML('beforeend', botMsgHTML);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 1000);
+        }
+    </script>
+</body>
+</html>

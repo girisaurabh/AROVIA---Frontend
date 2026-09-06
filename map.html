@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arovia - Interactive Eco Map</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aroviaMaroon: '#4a1525',
+                        aroviaDarkMaroon: '#2b0b14',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#f7f3f4] font-sans antialiased flex h-screen overflow-hidden text-gray-800">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="w-64 bg-[#451221] text-white flex flex-col justify-between p-6 select-none shadow-xl z-20 shrink-0">
+        <div>
+            <!-- Brand Logo -->
+            <div class="mb-10">
+                <h1 class="text-3xl font-extrabold tracking-wider italic">Arovia</h1>
+                <p class="text-[9px] tracking-widest text-pink-200/80 uppercase mt-1">Explore • Experience • Preserve</p>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-house text-base"></i> Home
+                </a>
+                <a href="trip.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-suitcase text-base"></i> My Trips
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-bookmark text-base"></i> Saved Places
+                </a>
+                <a href="map.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl bg-white/20 text-white font-medium shadow-sm transition duration-300">
+                    <i class="fa-solid fa-map text-base"></i> Map
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-user text-base"></i> Profile
+                </a>
+            </nav>
+        </div>
+
+        <!-- Sidebar Footer Box -->
+        <div class="relative bg-black/20 p-4 rounded-3xl border border-white/10 text-center space-y-2">
+            <div class="flex justify-center opacity-60 text-pink-200">
+                <i class="fa-solid fa-mountain text-3xl"></i>
+            </div>
+            <p class="text-xs italic text-pink-100/90 font-light leading-snug">"Better Journeys for a Greener Tomorrow"</p>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 overflow-y-auto p-8 flex flex-col bg-[#f7f3f4] relative">
+
+        <!-- Top Header Bar -->
+        <div class="flex justify-between items-center bg-white/80 backdrop-blur-md px-6 py-4 rounded-3xl shadow-sm border border-pink-100 mb-6 shrink-0">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-2xl bg-[#451221] text-white flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-map-marked-alt text-sm"></i>
+                </div>
+                <div>
+                    <h2 class="font-bold text-gray-900 text-base">Arovia Live Eco Map</h2>
+                    <p class="text-xs text-gray-500">Explore offbeat routes, green homestays, and safety check-posts</p>
+                </div>
+            </div>
+            <a href="dashboard.html" class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-xl text-xs font-semibold transition flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <!-- Interactive Map Container with Filters -->
+        <div class="flex-1 bg-white p-6 rounded-[2.5rem] shadow-sm border border-pink-100 flex flex-col gap-4 relative">
+            
+            <!-- Map Filter Toolbar -->
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-2 border-b border-gray-100 text-xs">
+                <div class="flex items-center gap-2">
+                    <span class="font-semibold text-gray-700">Filter Pins:</span>
+                    <button onclick="filterPins('all')" class="px-3 py-1.5 rounded-xl bg-[#451221] text-white font-medium transition">All Spots</button>
+                    <button onclick="filterPins('eco')" class="px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium transition">🌿 Eco-Stays</button>
+                    <button onclick="filterPins('safety')" class="px-3 py-1.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium transition">🛡️ Safety Posts</button>
+                </div>
+                <div class="text-gray-500 font-medium">
+                    <i class="fa-solid fa-location-crosshairs text-[#451221]"></i> Click markers for details
+                </div>
+            </div>
+
+            <!-- Leaflet Map View -->
+            <div id="fullMap" class="w-full flex-1 rounded-3xl shadow-inner border border-gray-200 min-h-[450px]"></div>
+
+        </div>
+
+    </main>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Initialize Map centered around North India Offbeat Hubs
+        const map = L.map('fullMap').setView([30.0668, 79.0193], 7);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Marker Database
+        const locations = [
+            { lat: 27.5530, lng: 76.6346, title: "Alwar Heritage Trail (Sariska)", type: "eco", desc: "Wildlife reserve & historic fort region." },
+            { lat: 30.7029, lng: 77.8767, title: "Chakrata Tiger Falls Eco-Stay", type: "eco", desc: "Sustainable timber cottage near waterfall." },
+            { lat: 30.9032, lng: 76.9645, title: "Kasauli Gilbert Ridge Camp", type: "eco", desc: "Pine forest conservation zone." },
+            { lat: 29.4754, lng: 79.6488, title: "Mukteshwar Orchard Retreat", type: "eco", desc: "Apple orchards & valley view lodge." },
+            { lat: 28.6139, lng: 77.2090, title: "Delhi Central Hub & Tourist Police", type: "safety", desc: "Primary transport & emergency assistance hub." }
+        ];
+
+        let markersLayer = L.layerGroup().addTo(map);
+
+        function renderMarkers(filter = 'all') {
+            markersLayer.clearLayers();
+            locations.forEach(loc => {
+                if (filter === 'all' || loc.type === filter) {
+                    let markerColor = loc.type === 'eco' ? '🌿 ' : '🛡️ ';
+                    let marker = L.marker([loc.lat, loc.lng]).bindPopup(`<b>${markerColor}${loc.title}</b><br>${loc.desc}`);
+                    markersLayer.addLayer(marker);
+                }
+            });
+        }
+
+        function filterPins(type) {
+            renderMarkers(type);
+        }
+
+        // Initial render
+        renderMarkers('all');
+    </script>
+</body>
+</html>

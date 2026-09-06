@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arovia - AI Sustainable Trip Customizer</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Leaflet CSS for Map -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aroviaMaroon: '#4a1525',
+                        aroviaDarkMaroon: '#2b0b14',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-[#f7f3f4] font-sans antialiased flex h-screen overflow-hidden text-gray-800">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="w-64 bg-[#451221] text-white flex flex-col justify-between p-6 select-none shadow-xl z-20 shrink-0">
+        <div>
+            <!-- Brand Logo -->
+            <div class="mb-10">
+                <h1 class="text-3xl font-extrabold tracking-wider italic">Arovia</h1>
+                <p class="text-[9px] tracking-widest text-pink-200/80 uppercase mt-1">Explore • Experience • Preserve</p>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="space-y-2">
+                <a href="dashboard.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-house text-base"></i> Home
+                </a>
+                <a href="trip.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl bg-white/20 text-white font-medium shadow-sm transition duration-300">
+                    <i class="fa-solid fa-suitcase text-base"></i> My Trips
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-bookmark text-base"></i> Saved Places
+                </a>
+                <a href="map.html" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-map text-base"></i> Map
+                </a>
+                <a href="#" class="flex items-center gap-4 px-4 py-3 rounded-2xl text-pink-100/70 hover:bg-white/10 transition duration-300">
+                    <i class="fa-solid fa-user text-base"></i> Profile
+                </a>
+            </nav>
+        </div>
+
+        <!-- Sidebar Footer Box -->
+        <div class="relative bg-black/20 p-4 rounded-3xl border border-white/10 text-center space-y-2">
+            <div class="flex justify-center opacity-60 text-pink-200">
+                <i class="fa-solid fa-mountain text-3xl"></i>
+            </div>
+            <p class="text-xs italic text-pink-100/90 font-light leading-snug">"Better Journeys for a Greener Tomorrow"</p>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA WITH SCENIC BACKGROUND -->
+    <main class="flex-1 overflow-y-auto p-8 flex flex-col items-center bg-cover bg-center relative" style="background-image: linear-gradient(to bottom, rgba(43, 11, 20, 0.88), rgba(69, 18, 33, 0.95)), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1600&q=80')">
+
+        <!-- Top Header Bar -->
+        <div class="w-full max-w-4xl flex justify-between items-center z-10 mb-6 shrink-0">
+            <div>
+                <h2 class="text-white text-2xl font-black italic tracking-wide drop-shadow">AROVIA</h2>
+                <p class="text-pink-200 text-[11px] italic drop-shadow-sm">"Arovia - Where memories meet your next journey"</p>
+            </div>
+            <a href="dashboard.html" class="px-4 py-2 rounded-xl bg-white/20 backdrop-blur-md text-white text-xs font-semibold hover:bg-white hover:text-[#451221] transition duration-300 shadow-sm flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <!-- VIEW 1: TRIP CUSTOMIZER FORM -->
+        <div id="formView" class="w-full max-w-xl bg-[#2b0b14]/90 backdrop-blur-2xl p-8 rounded-[2.5rem] shadow-2xl border border-pink-500/30 text-white space-y-6 z-10 my-auto transition-all duration-500">
+            
+            <div class="text-center space-y-1.5">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 text-pink-200 text-xs font-semibold border border-white/10">
+                    <i class="fa-solid fa-map text-xs text-pink-400"></i> AI Sustainable Trip Customizer
+                </div>
+                <p class="text-xs text-pink-100/80 font-light">Configure your parameters for smart offbeat routing</p>
+            </div>
+
+            <form id="aiTripForm" onsubmit="showResults(event)" class="space-y-4 text-xs">
+                
+                <div class="space-y-1.5">
+                    <label class="block font-semibold text-pink-100 flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot text-pink-400"></i> STARTING TOURISM HUB
+                    </label>
+                    <select id="startHub" class="w-full p-3.5 rounded-2xl bg-black/30 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-pink-400">
+                        <option value="Delhi" class="bg-[#2b0b14] text-white">Delhi</option>
+                        <option value="Dehradun" class="bg-[#2b0b14] text-white">Dehradun</option>
+                        <option value="Chandigarh" class="bg-[#2b0b14] text-white">Chandigarh</option>
+                        <option value="Kathgodam" class="bg-[#2b0b14] text-white">Kathgodam</option>
+                    </select>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-1.5">
+                        <label class="block font-semibold text-pink-100 flex items-center gap-2">
+                            <i class="fa-solid fa-clock text-pink-400"></i> TIME DURATION
+                        </label>
+                        <select id="timeDuration" class="w-full p-3.5 rounded-2xl bg-black/30 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-pink-400">
+                            <option value="3 Days" class="bg-[#2b0b14] text-white">3 Days</option>
+                            <option value="5 Days" class="bg-[#2b0b14] text-white">5 Days</option>
+                            <option value="7 Days" class="bg-[#2b0b14] text-white">7 Days</option>
+                        </select>
+                    </div>
+
+                    <div class="space-y-1.5">
+                        <label class="block font-semibold text-pink-100 flex items-center gap-2">
+                            <i class="fa-solid fa-wallet text-pink-400"></i> BUDGET LIMIT
+                        </label>
+                        <input type="text" id="budgetLimit" value="₹10,000" class="w-full p-3.5 rounded-2xl bg-black/30 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-pink-400 font-medium">
+                    </div>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="block font-semibold text-pink-100 flex items-center gap-2">
+                        <i class="fa-solid fa-compass text-pink-400"></i> PRIMARY INTERESTS
+                    </label>
+                    <select id="primaryInterests" class="w-full p-3.5 rounded-2xl bg-black/30 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-pink-400">
+                        <option value="Heritage & Culture" class="bg-[#2b0b14] text-white">Heritage & Culture</option>
+                        <option value="Adventure & Trekking" class="bg-[#2b0b14] text-white">Adventure & Trekking</option>
+                        <option value="Nature & Wildlife" class="bg-[#2b0b14] text-white">Nature & Wildlife</option>
+                    </select>
+                </div>
+
+                <div class="space-y-1.5">
+                    <label class="block font-semibold text-pink-100 flex items-center gap-2">
+                        <i class="fa-solid fa-users text-pink-400"></i> CROWD PREFERENCE
+                    </label>
+                    <select id="crowdPreference" class="w-full p-3.5 rounded-2xl bg-black/30 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-pink-400">
+                        <option value="Less Crowded (Offbeat Hidden Gem)" class="bg-[#2b0b14] text-white">Less Crowded (Offbeat Hidden Gem)</option>
+                        <option value="Popular & Vibrant Spots" class="bg-[#2b0b14] text-white">Popular & Vibrant Spots</option>
+                    </select>
+                </div>
+
+                <div class="pt-3">
+                    <button type="submit" class="w-full py-4 rounded-2xl bg-gradient-to-r from-pink-600 via-rose-600 to-[#4a1525] hover:from-pink-500 hover:to-rose-700 text-white font-bold text-xs tracking-wider uppercase transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg shadow-pink-900/40 flex items-center justify-center gap-2 cursor-pointer border border-pink-400/30">
+                        GENERATE PERSONALIZED ROUTE <i class="fa-solid fa-wand-magic-sparkles text-pink-200"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- VIEW 2: DYNAMIC RESULTS DASHBOARD (Hidden Initially) -->
+        <div id="resultsView" class="w-full max-w-4xl hidden space-y-6 z-10 pb-12">
+            
+            <!-- Destination Banner Card (SIH Badge Removed) -->
+            <div class="bg-[#1f070e]/95 backdrop-blur-xl p-6 rounded-[2.5rem] shadow-2xl border border-pink-500/30 text-white space-y-3">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h2 id="resTitle" class="text-2xl font-black tracking-tight text-white flex items-center gap-3">
+                            Alwar <span id="resSubtitle" class="text-sm font-normal text-pink-300">(Offbeat Heritage & Nature)</span>
+                        </h2>
+                        <p id="resDesc" class="text-xs text-pink-100/80 font-light mt-1">Escape the city rush to historical Sariska and quiet forts.</p>
+                        <div class="flex flex-wrap gap-3 mt-3 text-[11px] text-pink-200 font-medium">
+                            <span id="resDistance" class="px-3 py-1 rounded-full bg-white/10"><i class="fa-solid fa-route"></i> +122 km From Delhi (2.5 hrs via NH 48)</span>
+                            <span id="resDurationBadge" class="px-3 py-1 rounded-full bg-white/10"><i class="fa-solid fa-calendar"></i> 3 Days</span>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <span class="px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-500/30 text-center">
+                            <i class="fa-solid fa-leaf"></i> Low Density (Safe)
+                        </span>
+                        <span id="resCO2" class="px-4 py-1.5 rounded-full bg-blue-500/20 text-blue-300 text-xs font-bold border border-blue-500/30 text-center">
+                            <i class="fa-solid fa-cloud"></i> 142 kg CO2 Saved
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scenic Spot Highlights & Widgets Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-[#1f070e]/95 backdrop-blur-xl p-5 rounded-3xl border border-pink-500/20 text-white space-y-2">
+                    <div id="spot1Icon" class="flex items-center gap-2 text-pink-400 font-bold text-xs"><i class="fa-solid fa-mountain-sun"></i> Sariska Tiger Reserve</div>
+                    <p id="spot1Desc" class="text-[11px] text-gray-300">Wildlife Safari</p>
+                </div>
+                <div class="bg-[#1f070e]/95 backdrop-blur-xl p-5 rounded-3xl border border-pink-500/20 text-white space-y-2">
+                    <div id="spot2Icon" class="flex items-center gap-2 text-pink-400 font-bold text-xs"><i class="fa-solid fa-water"></i> Siliserh Lake Palace</div>
+                    <p id="spot2Desc" class="text-[11px] text-gray-300">Scenic Water View</p>
+                </div>
+                <div class="bg-[#1f070e]/95 backdrop-blur-xl p-5 rounded-3xl border border-pink-500/20 text-white space-y-2">
+                    <div id="spot3Icon" class="flex items-center gap-2 text-pink-400 font-bold text-xs"><i class="fa-solid fa-archway"></i> Bala Quila Fort</div>
+                    <p id="spot3Desc" class="text-[11px] text-gray-300">Ancient Architecture</p>
+                </div>
+            </div>
+
+            <!-- Weather & Local Food Row -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-[#1f070e]/95 backdrop-blur-xl p-5 rounded-3xl border border-pink-500/20 text-white flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] text-pink-300 uppercase tracking-wider block">Weather Forecast</span>
+                        <h4 id="resWeather" class="font-bold text-sm mt-0.5">24°C, Pleasant & Breezy</h4>
+                    </div>
+                    <i class="fa-solid fa-cloud-sun text-3xl text-yellow-300"></i>
+                </div>
+                <div class="bg-[#1f070e]/95 backdrop-blur-xl p-5 rounded-3xl border border-pink-500/20 text-white flex items-center justify-between">
+                    <div>
+                        <span class="text-[10px] text-pink-300 uppercase tracking-wider block">Local Food Special</span>
+                        <h4 id="resFood" class="font-bold text-sm mt-0.5">Alwar Ka Mawa & Dal Baati Churma</h4>
+                    </div>
+                    <i class="fa-solid fa-utensils text-3xl text-pink-400"></i>
+                </div>
+            </div>
+
+            <!-- Smart Routing & Destination Map Box -->
+            <div class="bg-[#1f070e]/95 backdrop-blur-xl p-6 rounded-[2.5rem] border border-pink-500/30 text-white space-y-4">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold text-sm text-pink-200 flex items-center gap-2">
+                        <i class="fa-solid fa-map-location-dot text-pink-400"></i> Smart Routing & Destination Map
+                    </h3>
+                    <span class="text-[10px] text-gray-400">Leaflet | Arovia Intelligence Routing</span>
+                </div>
+                <!-- Leaflet Map Container -->
+                <div id="map" class="w-full h-72 rounded-2xl shadow-inner border border-white/10 z-0"></div>
+                
+                <button onclick="alert('Emergency SOS dispatched! Nearest police & medical unit alerted.')" class="w-full py-3.5 rounded-2xl bg-rose-600/90 hover:bg-rose-700 text-white font-bold text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 shadow-lg">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Emergency Assistant & Nearby Services
+                </button>
+            </div>
+
+            <!-- Budget Split Estimation -->
+            <div class="bg-[#1f070e]/95 backdrop-blur-xl p-6 rounded-[2.5rem] border border-pink-500/30 text-white space-y-3">
+                <div class="flex justify-between items-center text-xs">
+                    <h3 class="font-bold text-pink-200">AI BUDGET SPLIT ESTIMATION</h3>
+                    <span id="resBudgetTotal" class="font-bold text-emerald-300">Total ₹10,000</span>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center text-xs">
+                    <div class="p-3 bg-white/5 rounded-2xl border border-white/10">Stay (40%)</div>
+                    <div class="p-3 bg-white/5 rounded-2xl border border-white/10">Transport (25%)</div>
+                    <div class="p-3 bg-white/5 rounded-2xl border border-white/10">Food (20%)</div>
+                    <div class="p-3 bg-white/5 rounded-2xl border border-white/10">Reserve (15%)</div>
+                </div>
+            </div>
+
+            <!-- Smart AI Itinerary Plan -->
+            <div class="bg-[#1f070e]/95 backdrop-blur-xl p-6 rounded-[2.5rem] border border-pink-500/30 text-white space-y-3">
+                <h3 class="font-bold text-sm text-pink-200 flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-days text-pink-400"></i> SMART AI ITINERARY PLAN
+                </h3>
+                <div id="resItinerary" class="space-y-2 text-xs">
+                    <!-- Dynamic Itinerary injected here -->
+                </div>
+            </div>
+
+            <!-- Local Language Phrasebook & Packing Checklist -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-[#1f070e]/95 backdrop-blur-xl p-5 rounded-3xl border border-pink-500/20 text-white space-y-2 text-xs">
+                    <h4 class="font-bold text-pink-300 flex items-center gap-2"><i class="fa-solid fa-language"></i> Local Language Phrasebook</h4>
+                    <p id="phrase1">Welcome / Greetings: <span class="font-bold text-pink-200">Khamma Ghani</span></p>
+                    <p id="phrase2">How much is this?: <span class="font-bold text-pink-200">Ye kitne ka hai?</span></p>
+                    <p id="phrase3">Thank you: <span class="font-bold text-pink-200">Dhanyawad / Bhulai</span></p>
+                </div>
+                <div class="bg-[#1f070e]/95 backdrop-blur-xl p-5 rounded-3xl border border-pink-500/20 text-white space-y-2 text-xs">
+                    <h4 class="font-bold text-pink-300 flex items-center gap-2"><i class="fa-solid fa-suitcase"></i> Smart Packing Checklist</h4>
+                    <p>🥾 Trekking Shoes</p>
+                    <p>💧 Reusable Water Bottle</p>
+                    <p>🔭 Binoculars / Camera</p>
+                    <p>🧥 Light Jacket</p>
+                </div>
+            </div>
+
+            <!-- Emergency Hospital Info & Action Buttons -->
+            <div class="bg-[#1f070e]/95 backdrop-blur-xl p-5 rounded-3xl border border-pink-500/20 text-white flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
+                <div>
+                    <span id="resHospital" class="text-pink-300 font-bold block">Hospital: General Hospital Alwar (2.4 km)</span>
+                    <span id="resHelpline" class="text-gray-300">Helpline: +91-144-233001 (Local Helpline)</span>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="resetForm()" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition border border-white/15">
+                        ← Modify
+                    </button>
+                    <button onclick="window.print()" class="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-semibold rounded-xl transition border border-white/15">
+                        ⬇ Download
+                    </button>
+                    <button onclick="alert('Trip link copied to clipboard!')" class="px-4 py-2 bg-pink-600 hover:bg-pink-700 text-white font-semibold rounded-xl transition shadow-sm">
+                        📤 Share
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Leaflet JS for Map -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        let mapInstance = null;
+
+        const destinationData = {
+            "Delhi": {
+                name: "Alwar",
+                subtitle: "(Offbeat Heritage & Nature)",
+                desc: "Escape the city rush to historical Sariska and quiet forts.",
+                distance: "+122 km From Delhi (2.5 hrs via NH 48)",
+                co2: "142 kg CO2 Saved",
+                spots: [
+                    { name: "Sariska Tiger Reserve", type: "Wildlife Safari" },
+                    { name: "Siliserh Lake Palace", type: "Scenic Water View" },
+                    { name: "Bala Quila Fort", type: "Ancient Architecture" }
+                ],
+                weather: "24°C, Pleasant & Breezy",
+                food: "Alwar Ka Mawa & Dal Baati Churma",
+                lat: 27.5530, lng: 76.6346,
+                markers: [
+                    { lat: 27.3142, lng: 76.4357, title: "Sariska Tiger Reserve" },
+                    { lat: 27.5878, lng: 76.6212, title: "Siliserh Lake Palace" },
+                    { lat: 27.5684, lng: 76.6026, title: "Bala Quila Fort" }
+                ],
+                phrases: { g: "Khamma Ghani", p: "Ye kitne ka hai?", t: "Dhanyawad" },
+                hospital: "General Hospital Alwar (2.4 km)",
+                helpline: "+91-144-233001 (Alwar Helpline)"
+            },
+            "Dehradun": {
+                name: "Chakrata",
+                subtitle: "(Pine Forests & Hidden Waterfalls)",
+                desc: "Discover pristine alpine views, Tiger Falls, and quiet cantonment trails.",
+                distance: "+88 km From Dehradun (3 hrs via Chakrata Rd)",
+                co2: "115 kg CO2 Saved",
+                spots: [
+                    { name: "Tiger Falls", type: "Highest Waterfall" },
+                    { name: "Chilmiri Neck", type: "Sunset Viewpoint" },
+                    { name: "Deoban Oak Forests", type: "Bird Watching" }
+                ],
+                weather: "18°C, Cool & Misty",
+                food: "Garhwali Kafuli & Madra",
+                lat: 30.7029, lng: 77.8767,
+                markers: [
+                    { lat: 30.6850, lng: 77.8900, title: "Tiger Falls" },
+                    { lat: 30.7100, lng: 77.8650, title: "Chilmiri Neck Viewpoint" },
+                    { lat: 30.7300, lng: 77.9100, title: "Deoban Forest Range" }
+                ],
+                phrases: { g: "Namaskar / Pranam", p: "Kaan cha yo?", t: "Dhanyawad" },
+                hospital: "Cantonment General Hospital Chakrata (1.5 km)",
+                helpline: "+91-135-272001 (Chakrata Helpline)"
+            },
+            "Chandigarh": {
+                name: "Kasauli",
+                subtitle: "(Colonial Pine Hills)",
+                desc: "Peaceful cantonment town surrounded by dense pine and horse-chestnut trees.",
+                distance: "+60 km From Chandigarh (1.5 hrs via NH 5)",
+                co2: "95 kg CO2 Saved",
+                spots: [
+                    { name: "Gilbert Trail", type: "Nature Walk" },
+                    { name: "Monkey Point", type: "Valley Panorama" },
+                    { name: "Christ Church", type: "British Heritage" }
+                ],
+                weather: "20°C, Breezy & Pleasant",
+                food: "Himachali Siddu & Madra",
+                lat: 30.9032, lng: 76.9645,
+                markers: [
+                    { lat: 30.9000, lng: 76.9580, title: "Gilbert Trail" },
+                    { lat: 30.8950, lng: 76.9720, title: "Monkey Point" },
+                    { lat: 30.9050, lng: 76.9650, title: "Christ Church Kasauli" }
+                ],
+                phrases: { g: "Namaste ji", p: "Kitne da hai?", t: "Bahut dhanyawad" },
+                hospital: "Civil Hospital Kasauli (1.8 km)",
+                helpline: "+91-179-227201 (Kasauli Helpline)"
+            },
+            "Kathgodam": {
+                name: "Mukteshwar",
+                subtitle: "(Himalayan Ridge & Orchards)",
+                desc: "High-altitude serenity with panoramic snow-capped peaks and fruit orchards.",
+                distance: "+70 km From Kathgodam (2.5 hrs via Nainital Rd)",
+                co2: "130 kg CO2 Saved",
+                spots: [
+                    { name: "Chauli Ki Jali", type: "Cliff Edge & View" },
+                    { name: "Mukteshwar Temple", type: "Ancient Shrine" },
+                    { name: "Bhalugaad Waterfalls", type: "Hidden Stream" }
+                ],
+                weather: "16°C, Crisp Mountain Air",
+                food: "Kumaoni Aloo Ke Gutke & Bhang ki Chutney",
+                lat: 29.4754, lng: 79.6488,
+                markers: [
+                    { lat: 29.4800, lng: 79.6400, title: "Chauli Ki Jali" },
+                    { lat: 29.4750, lng: 79.6500, title: "Mukteshwar Temple" },
+                    { lat: 29.4600, lng: 79.6300, title: "Bhalugaad Waterfalls" }
+                ],
+                phrases: { g: "Pranam bhai", p: "Kati chha?", t: "Dhanyawad" },
+                hospital: "Community Health Center Mukteshwar (2.0 km)",
+                helpline: "+91-594-222011 (Mukteshwar Helpline)"
+            }
+        };
+
+        function showResults(event) {
+            event.preventDefault();
+            
+            const hub = document.getElementById('startHub').value;
+            const duration = document.getElementById('timeDuration').value;
+            const budget = document.getElementById('budgetLimit').value;
+            const interest = document.getElementById('primaryInterests').value;
+
+            const data = destinationData[hub] || destinationData["Delhi"];
+
+            document.getElementById('resTitle').innerHTML = `${data.name} <span class="text-sm font-normal text-pink-300">${data.subtitle}</span>`;
+            document.getElementById('resDesc').innerText = data.desc;
+            document.getElementById('resDistance').innerHTML = `<i class="fa-solid fa-route"></i> ${data.distance}`;
+            document.getElementById('resDurationBadge').innerHTML = `<i class="fa-solid fa-calendar"></i> ${duration}`;
+            document.getElementById('resCO2').innerHTML = `<i class="fa-solid fa-cloud"></i> ${data.co2}`;
+
+            document.getElementById('spot1Icon').innerHTML = `<i class="fa-solid fa-mountain-sun"></i> ${data.spots[0].name}`;
+            document.getElementById('spot1Desc').innerText = data.spots[0].type;
+            document.getElementById('spot2Icon').innerHTML = `<i class="fa-solid fa-water"></i> ${data.spots[1].name}`;
+            document.getElementById('spot2Desc').innerText = data.spots[1].type;
+            document.getElementById('spot3Icon').innerHTML = `<i class="fa-solid fa-archway"></i> ${data.spots[2].name}`;
+            document.getElementById('spot3Desc').innerText = data.spots[2].type;
+
+            document.getElementById('resWeather').innerText = data.weather;
+            document.getElementById('resFood').innerText = data.food;
+            document.getElementById('resBudgetTotal').innerText = `Total ${budget}`;
+
+            document.getElementById('phrase1').innerHTML = `Welcome / Greetings: <span class="font-bold text-pink-200">${data.phrases.g}</span>`;
+            document.getElementById('phrase2').innerHTML = `How much is this?: <span class="font-bold text-pink-200">${data.phrases.p}</span>`;
+            document.getElementById('phrase3').innerHTML = `Thank you: <span class="font-bold text-pink-200">${data.phrases.t}</span>`;
+
+            document.getElementById('resHospital').innerText = `Hospital: ${data.hospital}`;
+            document.getElementById('resHelpline').innerText = `Helpline: ${data.helpline}`;
+
+            const daysCount = parseInt(duration);
+            let itineraryHTML = '';
+            for (let i = 1; i <= daysCount; i++) {
+                itineraryHTML += `
+                    <div class="p-3 bg-white/5 rounded-xl border border-white/10 font-medium">
+                        <span class="text-pink-300 font-bold">Day ${i}:</span> Exploring ${data.name} - Visit ${data.spots[(i-1)%3].name} and local offbeat trails focusing on ${interest}.
+                    </div>
+                `;
+            }
+            document.getElementById('resItinerary').innerHTML = itineraryHTML;
+
+            document.getElementById('formView').classList.add('hidden');
+            document.getElementById('resultsView').classList.remove('hidden');
+
+            setTimeout(() => {
+                if (!mapInstance) {
+                    mapInstance = L.map('map').setView([data.lat, data.lng], 12);
+                    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; OpenStreetMap contributors'
+                    }).addTo(mapInstance);
+                } else {
+                    mapInstance.setView([data.lat, data.lng], 12);
+                    mapInstance.invalidateSize();
+                }
+
+                mapInstance.eachLayer((layer) => {
+                    if (layer instanceof L.Marker) {
+                        mapInstance.removeLayer(layer);
+                    }
+                });
+
+                data.markers.forEach(m => {
+                    L.marker([m.lat, m.lng]).addTo(mapInstance).bindPopup(m.title);
+                });
+            }, 200);
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function resetForm() {
+            document.getElementById('resultsView').classList.add('hidden');
+            document.getElementById('formView').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
